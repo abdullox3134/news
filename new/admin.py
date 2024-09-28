@@ -1,17 +1,19 @@
 from django.contrib import admin
-from new.models import Category, News, Comment, Sud, Jurnalistik, Yangilik_sub
+from .models import Category, News, Comment, Sud, Jurnalistik, Yangilik_sub
+from modeltranslation.admin import TranslationAdmin
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'order',)
-    search_fields = ('name',)
-    fields = ('name','order',)
+    list_display = ('name_uz', 'order',)
+    search_fields = ('name_uz',)
+    fields = ('name_uz', 'name_ru', 'order',)
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'tag', 'created_at',)
+    list_display = ('title_uz', 'category', 'tag', 'created_at',)
     search_fields = ('title',)
-    fields = ('title', 'subtitle', 'content', 'category', 'image', 'link', 'time', 'tag',)
+    fields = ('title_uz', 'title_ru', 'subtitle_uz', 'subtitle_ru', 'content_uz', 'content_ru', 'category', 'image',
+              'link', 'time_uz', 'time_ru', 'tag',)
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
@@ -22,18 +24,21 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Sud)
 class SudAdmin(admin.ModelAdmin):
-    list_display = ('title', 'tag', 'created_at',)
+    list_display = ('title_uz', 'tag', 'created_at',)
     search_fields = ('title',)
-    fields = ('title', 'subtitle', 'content', 'image', 'link', 'time', 'tag',)
+    fields = ('title_uz', 'title_ru', 'subtitle_uz', 'subtitle_ru', 'content_uz', 'content_ru', 'image', 'link',
+              'time_uz', 'time_ru', 'tag',)
 
 @admin.register(Jurnalistik)
 class JurnalistikAdmin(admin.ModelAdmin):
-    list_display = ('title', 'tag', 'created_at',)
+    list_display = ('title_uz', 'tag', 'created_at',)
     search_fields = ('title',)
-    fields = ('title', 'subtitle', 'content', 'image', 'link', 'time', 'tag',)
+    fields = ('title_uz', 'title_ru', 'subtitle_uz', 'subtitle_ru', 'content_uz', 'content_ru', 'image', 'link',
+              'time_uz', 'time_ru', 'tag',)
 
 @admin.register(Yangilik_sub)
 class Yangilik_subAdmin(admin.ModelAdmin):
-    list_display = ('title', 'tag', 'created_at',)
+    list_display = ('title_uz', 'tag', 'created_at',)
     search_fields = ('title',)
-    fields = ('title', 'subtitle', 'content', 'image', 'link', 'time', 'tag',)
+    fields = ('title_uz', 'title_ru', 'subtitle_uz', 'subtitle_ru', 'content_uz', 'content_ru', 'image', 'link',
+              'time_uz', 'time_ru', 'tag',)

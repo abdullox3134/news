@@ -7,7 +7,7 @@ class Category(models.Model):
     order = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.name
+        return self.name or ''
 
     class Meta:
         verbose_name = 'Category'
@@ -27,11 +27,11 @@ class News(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.title or ''
 
     class Meta:
-        verbose_name = 'New'
-        verbose_name_plural = 'News'
+        verbose_name = 'New category'
+        verbose_name_plural = 'News category'
 
 
 class Sud(models.Model):
@@ -46,7 +46,7 @@ class Sud(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.title or ''
 
     class Meta:
         verbose_name = 'Sud'
@@ -65,7 +65,7 @@ class Jurnalistik(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.title or ''
 
     class Meta:
         verbose_name = 'Jurnalistik surishtiruv'
@@ -84,11 +84,11 @@ class Yangilik_sub(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.title or ''
 
     class Meta:
-        verbose_name = 'Yangilik_sub'
-        verbose_name_plural = 'Yangiliklar_sub'
+        verbose_name = 'Yangilik'
+        verbose_name_plural = 'Yangiliklar'
 
 
 class Comment(models.Model):
