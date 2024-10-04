@@ -1,17 +1,9 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.permissions import AllowAny#, IsAuthenticated
-
-
+from rest_framework.permissions import AllowAny
 from users.models import CustomUser
-from users.serializers import MyTokenObtainPairSerializer, RegisterSerializer#, ProfileSerializer
-
-
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
-
+from users.serializers import RegisterSerializer
 
 class RegisterView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
@@ -29,13 +21,3 @@ class RegisterView(generics.CreateAPIView):
                 status=status.HTTP_201_CREATED
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-# @api_view(['GET'])
-# @permission_classes([IsAuthenticated])
-# def getProfile(request):
-#     user = request.user
-#     serializer = ProfileSerializer(user, many=False)
-#     return Response(serializer.data)

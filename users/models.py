@@ -1,64 +1,16 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
-
 from users.managers import UserManager
 
 
-class Role(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    description = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _('role')
-        verbose_name_plural = _('roles')
-
-
 class CustomUser(AbstractUser):
-    class Gender(models.TextChoices):
-        MALE = 'MALE', 'MALE'
-        FEMALE = 'FEMALE', 'FEMALE'
-
     phone = PhoneNumberField(unique=True)
-    full_name = models.CharField(_('full name'), max_length=100, blank=True, null=True)
-    email = models.EmailField(_('email address'), unique=True, null=True, blank=True)
-    roles = models.ManyToManyField(
-        Role,
-        verbose_name=_("role"),
-        blank=True,
-        help_text=_(
-            "The roles this user belongs to. A user will get all permissions "
-            "granted to each of their roles."
-        ),
-        related_name="custom_users",
-        related_query_name="custom_user",
-    )
-    age = models.PositiveIntegerField(_('age'), blank=True, null=True)
-    gender = models.CharField(_('gender'), max_length=10, choices=Gender.choices, blank=True, null=True)
-    image = models.ImageField(upload_to='users/', blank=True, null=True)
-
-    REGISTRATION_CHOICES = [
-        ('email', 'Email'),
-        ('google', 'Google'),
-    ]
-    registration_method = models.CharField(
-        max_length=10,
-        choices=REGISTRATION_CHOICES,
-        default='email'
-    )
+    full_name = models.CharField(max_length=100, blank=True, null=True)
 
     USERNAME_FIELD = 'phone'
-    REQUIRED_FIELDS = ['username', 'email']
+    REQUIRED_FIELDS = []  # Email va boshqa maydonlar talab qilinmaydi
     objects = UserManager()
 
     def __str__(self):
-        return f"{self.phone}"
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['phone'], name='unique_phone')
-        ]
+        return str(self.phone)
