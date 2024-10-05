@@ -51,12 +51,11 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-        # yoki boshqa autentifikatsiya klasslari
-    ),
-    # boshqa konfiguratsiyalar
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  # Har qanday foydalanuvchiga ruxsat berish
+    ],
 }
+
 
 
 SIMPLE_JWT = {
