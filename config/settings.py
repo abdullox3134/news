@@ -50,6 +50,15 @@ INSTALLED_APPS = [
     'users',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        # yoki boshqa autentifikatsiya klasslari
+    ),
+    # boshqa konfiguratsiyalar
+}
+
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=365),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=365),
