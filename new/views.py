@@ -41,20 +41,19 @@ def news_detail(request, pk):
     news = get_object_or_404(News, pk=pk)
 
     if request.method == 'GET':
-        news.view_count += 1
+        news.view_count += 1  # Ko'rishlar sonini oshirish
         news.save()
         serializer = NewsSerializer(news, context={'request': request})
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        if request.user.is_authenticated:
-            serializer = CommentSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save(user=request.user, news=news)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({'detail': 'Autentifikatsiya maʼlumotlari taqdim etilmagan.'}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user if request.user.is_authenticated else None  # Foydalanuvchi tizimga kirmagan bo'lsa `None`
+            serializer.save(user=user, news=news)  # Izohni foydalanuvchi yoki anonim tarzda saqlash
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
@@ -84,20 +83,19 @@ def sud_detail(request, pk):
     sud = get_object_or_404(Sud, pk=pk)
 
     if request.method == 'GET':
-        sud.view_count += 1
+        sud.view_count += 1  # Ko'rishlar sonini oshirish
         sud.save()
         serializer = SudSerializer(sud, context={'request': request})
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        if request.user.is_authenticated:
-            serializer = CommentSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save(user=request.user, sud=sud)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({'detail': 'Autentifikatsiya malumotlari taqdim etilmagan.'}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user if request.user.is_authenticated else None  # Foydalanuvchi tizimga kirmagan bo'lsa `None`
+            serializer.save(user=user, sud=sud)  # Izohni foydalanuvchi yoki anonim tarzda saqlash
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
@@ -114,21 +112,20 @@ class JurnalistikListView(ListAPIView):
 def jurnalistik_detail(request, pk):
     jurnalistik = get_object_or_404(Jurnalistik, pk=pk)
 
-    jurnalistik.view_count += 1
+    jurnalistik.view_count += 1  # Ko'rishlar sonini oshirish
     jurnalistik.save()
 
     if request.method == 'POST':
-        if request.user.is_authenticated:
-            serializer = CommentSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save(user=request.user, jurnalistik=jurnalistik)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({'detail': 'Autentifikatsiya malumotlari taqdim etilmagan.'}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user if request.user.is_authenticated else None  # Foydalanuvchi tizimga kirmagan bo'lsa `None`
+            serializer.save(user=user, jurnalistik=jurnalistik)  # Izohni foydalanuvchi yoki anonim tarzda saqlash
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     serializer = JurnalistikSerializer(jurnalistik, context={'request': request})
     return Response(serializer.data)
+
 
 
 class Yangilik_subListView(ListAPIView):
@@ -144,18 +141,16 @@ class Yangilik_subListView(ListAPIView):
 def yangilik_sub_detail(request, pk):
     yangilik_sub = get_object_or_404(Yangilik_sub, pk=pk)
 
-    yangilik_sub.view_count += 1
+    yangilik_sub.view_count += 1  # Ko'rishlar sonini oshirish
     yangilik_sub.save()
 
     if request.method == 'POST':
-        if request.user.is_authenticated:
-            serializer = CommentSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save(user=request.user, yangilik_sub=yangilik_sub)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({'detail': 'Autentifikatsiya malumotlari taqdim etilmagan.'}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user if request.user.is_authenticated else None  # Foydalanuvchi tizimga kirmagan bo'lsa `None`
+            serializer.save(user=user, yangilik_sub=yangilik_sub)  # Izohni foydalanuvchi yoki anonim tarzda saqlash
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     serializer = Yangilik_subSerializer(yangilik_sub, context={'request': request})
     return Response(serializer.data)
