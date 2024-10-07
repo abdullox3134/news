@@ -27,7 +27,7 @@ class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
         fields = ['id', 'title_uz', 'title_ru', 'subtitle_uz', 'subtitle_ru', 'content_uz', 'content_ru', 'category',
-                  'image', 'link', 'time_uz', 'time_ru', 'tag', 'comments', 'category_id', 'view_count', 'created_at']
+                  'image', 'link', 'time_uz', 'time_ru', 'comments', 'category_id', 'view_count', 'created_at']
 
     def get_image(self, obj):
         if obj.image:
@@ -43,7 +43,7 @@ class SudSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sud
         fields = ['id', 'title_uz', 'title_ru', 'subtitle_uz', 'subtitle_ru', 'content_uz', 'content_ru', 'image',
-                  'link', 'time_uz', 'time_ru', 'tag', 'comments', 'view_count', 'created_at']
+                  'link', 'time_uz', 'time_ru', 'comments', 'view_count', 'created_at']
 
     def get_image(self, obj):
         if obj.image:
@@ -58,7 +58,7 @@ class JurnalistikSerializer(serializers.ModelSerializer):
     class Meta:
         model = Jurnalistik
         fields = ['id', 'title_uz', 'title_ru', 'subtitle_uz', 'subtitle_ru', 'content_uz', 'content_ru', 'image',
-                  'link', 'time_uz', 'time_ru', 'tag', 'comments', 'view_count',
+                  'link', 'time_uz', 'time_ru', 'comments', 'view_count',
                   'created_at']
 
     def get_image(self, obj):
@@ -74,7 +74,7 @@ class Yangilik_subSerializer(serializers.ModelSerializer):
     class Meta:
         model = Yangilik_sub
         fields = ['id', 'title_uz', 'title_ru', 'subtitle_uz', 'subtitle_ru', 'content_uz', 'content_ru', 'image',
-                  'link', 'time_uz', 'time_ru', 'tag', 'comments', 'view_count', 'created_at']
+                  'link', 'time_uz', 'time_ru', 'comments', 'view_count', 'created_at']
 
     def get_image(self, obj):
         if obj.image:

@@ -22,7 +22,7 @@ class News(models.Model):
     image = models.ImageField(upload_to='news_images/', null=True, blank=True)
     link = models.URLField(blank=True, null=True)
     time = models.CharField(max_length=200, blank=True, null=True)
-    tag = models.CharField(max_length=200, blank=True, null=True)
+    # tag = models.CharField(max_length=200, blank=True, null=True)
     view_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -41,7 +41,7 @@ class Sud(models.Model):
     image = models.ImageField(upload_to='sud_images/', null=True, blank=True)
     link = models.URLField(blank=True, null=True)
     time = models.CharField(max_length=200, blank=True, null=True)
-    tag = models.CharField(max_length=200, blank=True, null=True)
+    # tag = models.CharField(max_length=200, blank=True, null=True)
     view_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -60,7 +60,7 @@ class Jurnalistik(models.Model):
     image = models.ImageField(upload_to='jurnalistik_images/', null=True, blank=True)
     link = models.URLField(blank=True, null=True)
     time = models.CharField(max_length=200, blank=True, null=True)
-    tag = models.CharField(max_length=200, blank=True, null=True)
+    # tag = models.CharField(max_length=200, blank=True, null=True)
     view_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -79,7 +79,7 @@ class Yangilik_sub(models.Model):
     image = models.ImageField(upload_to='yangilik_sub_images/', null=True, blank=True)
     link = models.URLField(blank=True, null=True)
     time = models.CharField(max_length=200, blank=True, null=True)
-    tag = models.CharField(max_length=200, blank=True, null=True)
+    # tag = models.CharField(max_length=200, blank=True, null=True)
     view_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
