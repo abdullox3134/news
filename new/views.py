@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.generics import ListAPIView
@@ -9,6 +10,11 @@ from rest_framework.response import Response
 
 from .serializers import CategorySerializer, NewsSerializer, CommentSerializer, SudSerializer, JurnalistikSerializer, \
     Yangilik_subSerializer
+from django.contrib.auth.models import User, AnonymousUser
+
+
+User = get_user_model()
+
 
 
 class CategoryListView(ListAPIView):
@@ -41,7 +47,7 @@ def news_detail(request, pk):
     news = get_object_or_404(News, pk=pk)
 
     if request.method == 'GET':
-        news.view_count += 1  # Ko'rishlar sonini oshirish
+        news.view_count += 1
         news.save()
         serializer = NewsSerializer(news, context={'request': request})
         return Response(serializer.data)
@@ -49,11 +55,15 @@ def news_detail(request, pk):
     elif request.method == 'POST':
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            user = request.user if request.user.is_authenticated else None  # Foydalanuvchi tizimga kirmagan bo'lsa `None`
-            serializer.save(user=user, news=news)  # Izohni foydalanuvchi yoki anonim tarzda saqlash
+            # Foydalanuvchi tizimga kirmagan bo'lsa, AnonymousUser bo'lishi kerak
+            if isinstance(request.user, AnonymousUser):
+                # Anonim foydalanuvchini yaratish yoki olish
+                anonymous_user, created = User.objects.get_or_create(username='anonymous')  # Anonim foydalanuvchini olish yoki yaratish
+                serializer.save(user=anonymous_user, news=news)
+            else:
+                serializer.save(user=request.user, news=news)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 
@@ -78,12 +88,13 @@ class SudListView(ListAPIView):
         return Sud.objects.all().order_by('-created_at')
 
 
+
 @api_view(['GET', 'POST'])
 def sud_detail(request, pk):
     sud = get_object_or_404(Sud, pk=pk)
 
     if request.method == 'GET':
-        sud.view_count += 1  # Ko'rishlar sonini oshirish
+        sud.view_count += 1
         sud.save()
         serializer = SudSerializer(sud, context={'request': request})
         return Response(serializer.data)
@@ -91,10 +102,16 @@ def sud_detail(request, pk):
     elif request.method == 'POST':
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            user = request.user if request.user.is_authenticated else None  # Foydalanuvchi tizimga kirmagan bo'lsa `None`
-            serializer.save(user=user, sud=sud)  # Izohni foydalanuvchi yoki anonim tarzda saqlash
+            # Foydalanuvchi tizimga kirmagan bo'lsa, AnonymousUser bo'lishi kerak
+            if isinstance(request.user, AnonymousUser):
+                # Anonim foydalanuvchini yaratish yoki olish
+                anonymous_user, created = User.objects.get_or_create(username='anonymous')  # Anonim foydalanuvchini olish yoki yaratish
+                serializer.save(user=anonymous_user, sud=sud)
+            else:
+                serializer.save(user=request.user, sud=sud)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
@@ -112,19 +129,24 @@ class JurnalistikListView(ListAPIView):
 def jurnalistik_detail(request, pk):
     jurnalistik = get_object_or_404(Jurnalistik, pk=pk)
 
-    jurnalistik.view_count += 1  # Ko'rishlar sonini oshirish
-    jurnalistik.save()
+    if request.method == 'GET':
+        jurnalistik.view_count += 1
+        jurnalistik.save()
+        serializer = JurnalistikSerializer(jurnalistik, context={'request': request})
+        return Response(serializer.data)
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            user = request.user if request.user.is_authenticated else None  # Foydalanuvchi tizimga kirmagan bo'lsa `None`
-            serializer.save(user=user, jurnalistik=jurnalistik)  # Izohni foydalanuvchi yoki anonim tarzda saqlash
+            # Foydalanuvchi tizimga kirmagan bo'lsa, AnonymousUser bo'lishi kerak
+            if isinstance(request.user, AnonymousUser):
+                # Anonim foydalanuvchini yaratish yoki olish
+                anonymous_user, created = User.objects.get_or_create(username='anonymous')  # Anonim foydalanuvchini olish yoki yaratish
+                serializer.save(user=anonymous_user, jurnalistik=jurnalistik)
+            else:
+                serializer.save(user=request.user, jurnalistik=jurnalistik)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    serializer = JurnalistikSerializer(jurnalistik, context={'request': request})
-    return Response(serializer.data)
 
 
 
@@ -141,16 +163,21 @@ class Yangilik_subListView(ListAPIView):
 def yangilik_sub_detail(request, pk):
     yangilik_sub = get_object_or_404(Yangilik_sub, pk=pk)
 
-    yangilik_sub.view_count += 1  # Ko'rishlar sonini oshirish
-    yangilik_sub.save()
+    if request.method == 'GET':
+        yangilik_sub.view_count += 1
+        yangilik_sub.save()
+        serializer = Yangilik_subSerializer(yangilik_sub, context={'request': request})
+        return Response(serializer.data)
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
-            user = request.user if request.user.is_authenticated else None  # Foydalanuvchi tizimga kirmagan bo'lsa `None`
-            serializer.save(user=user, yangilik_sub=yangilik_sub)  # Izohni foydalanuvchi yoki anonim tarzda saqlash
+            # Foydalanuvchi tizimga kirmagan bo'lsa, AnonymousUser bo'lishi kerak
+            if isinstance(request.user, AnonymousUser):
+                # Anonim foydalanuvchini yaratish yoki olish
+                anonymous_user, created = User.objects.get_or_create(username='anonymous')  # Anonim foydalanuvchini olish yoki yaratish
+                serializer.save(user=anonymous_user, yangilik_sub=yangilik_sub)
+            else:
+                serializer.save(user=request.user, yangilik_sub=yangilik_sub)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    serializer = Yangilik_subSerializer(yangilik_sub, context={'request': request})
-    return Response(serializer.data)
