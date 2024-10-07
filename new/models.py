@@ -92,7 +92,8 @@ class Yangilik_sub(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments', blank=True,
+                             null=True)
 
     news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
     sud = models.ForeignKey(Sud, on_delete=models.CASCADE, related_name='comments', null=True, blank=True)
