@@ -84,6 +84,12 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     'language-code',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'https://uzfati.uz',
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
