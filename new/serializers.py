@@ -13,9 +13,10 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
+    full_name = serializers.CharField(source='user.full_name', read_only=True)
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'comment', 'created_at']
+        fields = ['id', 'user', 'full_name', 'comment', 'created_at']
 
 
 class NewsSerializer(serializers.ModelSerializer):
