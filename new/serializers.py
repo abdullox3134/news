@@ -21,10 +21,9 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def get_full_name(self, obj):
         # Foydalanuvchining to'ldirilgan ism maydonini qaytaradi
-        if obj.user:
-            return obj.user.full_name if obj.user.full_name else 'User'
+        if obj.user and obj.user.full_name:
+            return obj.user.full_name
         return 'User'
-
 
 
 class NewsSerializer(serializers.ModelSerializer):
