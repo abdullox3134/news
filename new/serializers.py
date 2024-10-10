@@ -13,15 +13,10 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
-    full_name = serializers.SerializerMethodField()
-
+    full_name = serializers.CharField(source='user.full_name', read_only=True)
     class Meta:
         model = Comment
         fields = ['id', 'user', 'full_name', 'comment', 'created_at']
-
-    def get_full_name(self, obj):
-        # Foydalanuvchi ismni kiritgan bo'lsa ko'rsatadi, aks holda "User" qaytadi
-        return obj.user.full_name if obj.user and obj.user.full_name else 'User'
 
 
 class NewsSerializer(serializers.ModelSerializer):

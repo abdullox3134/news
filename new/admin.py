@@ -17,16 +17,10 @@ class NewsAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('user_full_name', 'comment', 'created_at',)
-    search_fields = ('comment', 'user__full_name',)
-    fields = ('news', 'user_full_name', 'comment',)
-    readonly_fields = ('created_at', 'user_full_name')
-
-    def user_full_name(self, obj):
-        # Foydalanuvchining ismi bo'lmasa, "User" ko'rsatiladi
-        return obj.user.full_name if obj.user and obj.user.full_name else 'User'
-
-    user_full_name.short_description = 'User Full Name'
+    list_display = ('user', 'comment', 'created_at',)
+    search_fields = ('comment', 'user__username',)
+    fields = ('news', 'user', 'comment',)
+    readonly_fields = ('created_at',)
 
 @admin.register(Sud)
 class SudAdmin(admin.ModelAdmin):
