@@ -23,6 +23,7 @@ class CommentAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'user_full_name')
 
     def user_full_name(self, obj):
+        # Foydalanuvchining ismi bo'lmasa, "User" ko'rsatiladi
         return obj.user.full_name if obj.user and obj.user.full_name else 'User'
 
     user_full_name.short_description = 'User Full Name'
